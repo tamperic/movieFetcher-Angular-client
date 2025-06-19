@@ -150,7 +150,7 @@ export class FetchApiData {
 
   // REMOVE MOVIE from the list of FAVORITES
   public deleteFavMovie(username: string, movieID: string): Observable<any>{
-    return this.http.delete(apiUrl + `users/${username}/mvoies/${movieID}`, {headers: this.createAuthHeader()}
+    return this.http.delete(apiUrl + `users/${username}/movies/${movieID}`, {headers: this.createAuthHeader()}
     ).pipe(
       catchError(this.handleError)
     )
