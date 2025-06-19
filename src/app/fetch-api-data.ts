@@ -126,7 +126,7 @@ export class FetchApiData {
 
   // ADD MOVIE to the list of FAVORITES
   public addFavMovie(username: string, movieID: string): Observable<any>{
-    return this.http.post(apiUrl + `users/${username}/movies/${movieID}`, {headers: this.createAuthHeader()}
+    return this.http.post(apiUrl + `users/${username}/movies/${movieID}`, null, {headers: this.createAuthHeader()} // Pass 'null' since there's no request body to send; Here server only needs parameters in the URL, not in the body.
     ).pipe(
       catchError(this.handleError)
     )
