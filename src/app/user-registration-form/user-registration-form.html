@@ -1,0 +1,60 @@
+<mat-card>
+    <mat-card-header>
+        <mat-card-title>Sing Up!</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <form>
+            <mat-form-field style="margin-right: 20px;">
+                <input 
+                    matInput
+                    [(ngModel)]="userData.username"
+                    placeholder="Username"
+                    type="text"
+                    name="Username"
+                    required
+                > <!-- 'ngModel' directive binds the inputs by the user to the 'userData' object -->
+            </mat-form-field>
+            <mat-form-field>
+                <input
+                    matInput
+                    [(ngModel)]="userData.password"
+                    placeholder="Password"
+                    type="password"
+                    name="Password"
+                    required
+                >
+            </mat-form-field>
+            <mat-form-field style="margin-right: 20px;">
+                <input
+                    matInput
+                    [(ngModel)]="userData.email"
+                    placeholder="Email"
+                    type="email"
+                    name="Email"
+                    required
+                >
+            </mat-form-field>
+            <mat-form-field>
+                <input
+                    matInput
+                    [(ngModel)]="userData.birthDate"
+                    placeholder="Date of birth"
+                    type="date"
+                    name="Birthday"
+                >
+            </mat-form-field>
+        </form>
+    </mat-card-content>
+    <mat-card-actions>
+        <button
+            mat-raised-button
+            (click)="registerUser()"
+            color="primary"
+        >
+            Sign Up
+        </button>
+    </mat-card-actions>
+</mat-card>
+
+
+

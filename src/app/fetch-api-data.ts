@@ -43,7 +43,7 @@ export class FetchApiData {
       console.error('Some error occured: ', error.error.message);
     } else {
       console.error(`Error Status code ${error.status}, ` + 
-        `Error body is: ${error.error}`
+        `Error body is: ${error.error}` // Show the backend’s detailed error message
       );
     }
     return throwError('Something bad happend. Please try again later.');
