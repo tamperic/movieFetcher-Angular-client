@@ -32,10 +32,7 @@ export class UserLoginForm {
   ) { }
 
   ngOnInit(): void {
-    // throw new Error('Method not implemented.');
-
     console.log('UserLoginForm initialized');
-    // you can add more init logic here later
   }
 
   // The function responsible for sending the form inputs to the backend
@@ -43,7 +40,7 @@ export class UserLoginForm {
     this.fetchApiData.userLogin(this.userData).subscribe((response) => {
       // Logic for a successful user registration
       localStorage.setItem('token', JSON.stringify(response.token));
-      localStorage.setItem('user', JSON.stringify(response.user));
+      localStorage.setItem('user', JSON.stringify(response.user.username));
 
       this.dialogRef.close(); // Close the modal on success
       console.log(response);

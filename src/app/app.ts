@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 // import { RouterOutlet } from '@angular/router';
+import { MovieCard } from "./movie-card/movie-card";
 import { UserRegistrationForm } from './user-registration-form/user-registration-form';
 import { UserLoginForm } from './user-login-form/user-login-form';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
@@ -37,5 +38,11 @@ export class App {
       width: "480px"
     });
   }
-}
 
+  // This is the function that will open the dialog when the ALL MOVIES button is clicked.
+  openMoviesDialog(): void {
+    this.dialog.open(MovieCard, {
+      width: '500px'
+    });
+  }
+}
