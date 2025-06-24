@@ -7,6 +7,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router'; 
 
 @Component({
   selector: 'app-user-login-form',
@@ -28,7 +29,8 @@ export class UserLoginForm {
   constructor(
     public fetchApiData: FetchApiData,
     public dialogRef: MatDialogRef<UserLoginForm>,
-    public snackBar: MatSnackBar
+    public snackBar: MatSnackBar,
+    public router: Router
   ) { }
 
   ngOnInit(): void {
@@ -47,10 +49,12 @@ export class UserLoginForm {
       this.snackBar.open('User logged in successfully!', 'OK', {
         duration: 2000
       });
+      this.router.navigate(['movies']); // Once login is successful navigate to 'movies'
     }, (response) => {
       this.snackBar.open('Login failed: ' + response, 'OK', {
         duration: 2000
       });
+      this.router.navigate(['welcome']); // Once login failed navigate to 'welcome'
     });
   }
 }

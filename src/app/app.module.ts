@@ -7,28 +7,38 @@ import { MatCardModule } from "@angular/material/card";
 import { MatDialogModule } from "@angular/material/dialog";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
-
-// import { AppRoutigModule } from './app-routing.module';
-import { App } from "./app";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { FormsModule } from "@angular/forms";
+import { RouterModule, Routes } from "@angular/router";
+
+import { App } from "./app";
 import { UserRegistrationForm } from "./user-registration-form/user-registration-form";
+import { UserLoginForm } from "./user-login-form/user-login-form";
+import { WelcomePage } from "./welcome-page/welcome-page";
+import { MovieCard } from "./movie-card/movie-card";
+
+export const appRoutes: Routes = [
+    { path: 'welcome', component: WelcomePage },
+    { path: 'movies', component: MovieCard },
+    { path: '', redirectTo: 'welcome', pathMatch: 'prefix' }
+];
 
 @NgModule({
     declarations: [ ],
     imports: [
         App,
         UserRegistrationForm,
+        UserLoginForm,
         BrowserModule,
-        // AppRoutigModule,
         FormsModule,
         MatDialogModule,
         MatButtonModule,
-        MatCardModule, // Material Design card component to display the various movies on welcome screen
+        MatCardModule, 
         MatInputModule,
         MatFormFieldModule,
         MatSnackBarModule,
-        BrowserAnimationsModule
+        BrowserAnimationsModule,
+        RouterModule.forRoot(appRoutes)
     ],
     providers: [provideHttpClient()],
     // bootstrap: [App]

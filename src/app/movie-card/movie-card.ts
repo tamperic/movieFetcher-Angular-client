@@ -12,11 +12,15 @@ import { CommonModule } from '@angular/common';
     MatCardModule,
     MatDialogModule
   ],
+  standalone: true,
   templateUrl: './movie-card.html',
   styleUrl: './movie-card.scss'
 })
-export class MovieCard {
+
+
+export class MovieCard implements OnInit {
   movies: any[] = [];
+
   constructor(public fetchApiData: FetchApiData) {}
 
   ngOnInit(): void {
