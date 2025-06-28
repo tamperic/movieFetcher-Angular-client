@@ -1,0 +1,21 @@
+<mat-toolbar color="primary" class="navbar">
+    <span class="app-title">MovieFetcher</span>
+  
+    <span class="spacer"></span>
+  
+    <!-- Navbar when user is logged out, on welcome screen -->
+    <ng-container *ngIf="isLoggedOut(); else loggedInLinks">
+        <button mat-button (click)="openUserLoginDialog()">Login</button>
+        <button mat-button (click)="openUserRegistrationDialog()">Signup</button>
+    </ng-container>
+
+    <!-- Navbar when user is logged in, on all other screens -->
+    <ng-template #loggedInLinks>
+        <ng-container *ngIf="isLoggedIn()">
+          <button mat-button routerLink="/movies">Home</button>
+          <button mat-button routerLink="/profile">Profile</button>
+          <button mat-button (click)="logoutUser()">Logout</button>
+        </ng-container>
+    </ng-template>
+</mat-toolbar>
+  
