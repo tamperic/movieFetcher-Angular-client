@@ -24,7 +24,8 @@ export class FetchApiData {
   // GET JWT TOKEN from localStorage & add it to HTTP REQUEST HEADERS as Bearer token for authorization
   private createAuthHeader(): HttpHeaders {
     // Fetch the JWT token from browser localStorage
-    const token = localStorage.getItem('token');
+    // const token = localStorage.getItem('token');
+    const token = localStorage.getItem('token')?.replace(/^"|"$/g, '');
     // Create new HttpHeaders object, and set authorization for securing API endpoints
     return new HttpHeaders({
       Authorization: token ? `Bearer ${token}` : ''
@@ -78,7 +79,6 @@ export class FetchApiData {
     );
   }
 
-
   // GET ONE MOVIE by title
   public getMovie(movieTitle: string): Observable<any>{
     return this.http.get(apiUrl + `movies/${movieTitle}`, {headers: this.createAuthHeader()}
@@ -115,14 +115,14 @@ export class FetchApiData {
     )
   }
 
-  // GET list of FAVORITE MOVIES
-  public getFavMovies(username: string, ): Observable<any>{
-    return this.http.get(apiUrl + `users/${username}/favMovies`, {headers: this.createAuthHeader()}
-    ).pipe(
-      map(this.extractResponseData),
-      catchError(this.handleError)
-    )
-  }
+  // // GET list of FAVORITE MOVIES
+  // public getFavMovies(username: string): Observable<any>{
+  //   return this.http.get(apiUrl + `users/${username}/favMovies`, {headers: this.createAuthHeader()}
+  //   ).pipe(
+  //     map(this.extractResponseData),
+  //     catchError(this.handleError)
+  //   )
+  // }
 
   // ADD MOVIE to the list of FAVORITES
   public addFavMovie(username: string, movieID: string): Observable<any>{
