@@ -7,13 +7,15 @@ import { MatDialog } from '@angular/material/dialog';
 import { UserRegistrationForm } from '../user-registration-form/user-registration-form';
 import { UserLoginForm } from '../user-login-form/user-login-form';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
   imports: [
     MatToolbarModule,
     MatButtonModule,
-    CommonModule
+    CommonModule,
+    RouterModule
   ],
   standalone: true,
   templateUrl: './navbar.html',
