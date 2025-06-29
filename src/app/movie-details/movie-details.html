@@ -1,0 +1,26 @@
+<h2 mat-dialog-title class="title">{{ movie?.title }}</h2>
+
+<mat-dialog-content *ngIf="movie">
+  <div class="image-container">
+    <img [src]="movie.imagePath" alt="{{ movie.title }}" class="movie-image" />
+  </div>
+
+  <div class="details">
+    <p><strong>Rating:</strong> {{ movie.rating }}</p>
+    <p><strong>Duration:</strong> {{ movie.duration }}</p>
+    <p><strong>Release Year:</strong> {{ movie.releaseYear }}</p>
+    <p><strong>Actors:</strong> {{ movie.actors?.join(', ') }}</p>
+    <p>
+      <strong>Genre:</strong> {{ movie.genre?.name }}
+      <button mat-button color="primary" (click)="openGenreDialog()">(Read more)</button>
+    </p>
+    <p>
+      <strong>Director:</strong> {{ movie.director?.name }}
+      <button mat-button color="primary" (click)="openDirectorDialog()">(Read more)</button>
+    </p>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-button mat-dialog-close style="margin-bottom: 10px; margin-left: 10px;">Close</button>
+</mat-dialog-actions>

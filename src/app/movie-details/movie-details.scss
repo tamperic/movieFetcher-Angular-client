@@ -1,0 +1,25 @@
+.title {
+    text-align: center;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    font-size: 1.8em;
+  }
+  
+  .image-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+  
+  .movie-image {
+    max-width: 300px;
+    width: 100%;
+    border-radius: 10px;
+    margin-bottom: 1em;
+  }
+  
+  .details {
+    width: 100%;
+    text-align: left;
+  }
+  
