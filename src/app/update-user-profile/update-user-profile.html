@@ -1,0 +1,69 @@
+<mat-card>
+    <mat-card-header>
+        <mat-card-title>Edit profile</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <form>
+            <mat-form-field style="margin-right: 20px;">
+                <input 
+                    matInput
+                    [(ngModel)]="newUserData.username"
+                    placeholder="Username"
+                    type="text"
+                    name="username"
+                    required
+                >
+            </mat-form-field>
+            <mat-form-field>
+                <input
+                    matInput
+                    [(ngModel)]="newUserData.password"
+                    placeholder="Password"
+                    type="password"
+                    name="password"
+                    required
+                >
+            </mat-form-field>
+            <mat-form-field style="margin-right: 20px;">
+                <input
+                    matInput
+                    [(ngModel)]="newUserData.email"
+                    placeholder="Email"
+                    type="email"
+                    name="email"
+                    required
+                >
+            </mat-form-field>
+            <mat-form-field>
+                <input
+                    matInput
+                    [(ngModel)]="newUserData.birthDate"
+                    placeholder="Date of birth"
+                    type="date"
+                    name="birthDate"
+                >
+            </mat-form-field>
+        </form>
+    </mat-card-content>
+    <mat-card-actions  align="end">
+        <button
+            mat-raised-button
+            (click)="saveChanges()"
+            color="primary"
+            style="margin-right: 20px;"
+        >
+            Save
+        </button>
+        <button
+            mat-raised-button
+            (click)="cancelChanges()"
+            color="primary"
+            style="margin-right: 20px;"
+        >
+            Cancel
+        </button>
+    </mat-card-actions>
+</mat-card>
+
+
+
