@@ -1,0 +1,70 @@
+:host {
+    display: block;
+    padding: 2rem;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  
+  mat-card {
+    margin-bottom: 2rem;
+    padding: 1rem;
+  
+    mat-card-header {
+      margin-bottom: 1rem;
+      mat-card-title {
+        font-size: 1.5rem;
+        font-weight: bold;
+      }
+    }
+  
+    mat-card-content p {
+      margin: 1rem 0;
+      font-size: 1rem;
+    }
+  
+    mat-card-actions {
+      margin-top: 1rem;
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+  }
+
+  .buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1rem;
+    flex-wrap: wrap;
+  
+    .right-buttons {
+      display: flex;
+      gap: 1rem;
+    }
+  }
+  
+  
+  h3 {
+    margin: 2rem 0 1rem;
+    font-size: 1.3rem;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 0.5rem;
+  }
+  
+  .movie-card {
+    margin-bottom: 1rem;
+    padding: 1rem;
+  
+    mat-card-title {
+      font-size: 1.2rem;
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+    }
+  
+    mat-card-content {
+      p {
+        margin: 0.25rem 0;
+      }
+    }
+  }
+  
