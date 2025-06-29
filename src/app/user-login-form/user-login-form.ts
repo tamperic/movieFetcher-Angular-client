@@ -41,8 +41,10 @@ export class UserLoginForm {
   loginUser(): void {
     this.fetchApiData.userLogin(this.userData).subscribe((response) => {
       // Logic for a successful user registration
-      localStorage.setItem('token', JSON.stringify(response.token));
-      localStorage.setItem('user', JSON.stringify(response.user.username));
+      localStorage.setItem('user', response.user.username);
+      localStorage.setItem('token', response.token);
+      // localStorage.setItem('token', JSON.stringify(response.token));
+      // localStorage.setItem('user', JSON.stringify(response.user.username));
 
       this.dialogRef.close(); // Close the modal on success
       console.log(response);
