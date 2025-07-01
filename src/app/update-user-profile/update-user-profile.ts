@@ -9,6 +9,10 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { FormsModule } from '@angular/forms';
 
+
+/**
+ * UpdateUserProfile component displayed as dialog allowing users to update/edit their profile. 
+ */
 @Component({
   selector: 'app-update-user-profile',
   imports: [
@@ -25,6 +29,13 @@ import { FormsModule } from '@angular/forms';
 export class UpdateUserProfile {
   newUserData: any;
 
+  /**
+   * Injects service and data into the component.
+   * @param data -  User data passed to dialog.
+   * @param dialogRef - Reference to the UpdateUserProfile dialog to handle when the dialog is opened.
+   * @param fetchApiData - Service for handling API requests.
+   * @param snackBar - Angular Material's snackbar feeback message for users.
+   */
   constructor (
     @Inject(MAT_DIALOG_DATA) public data: any,
     private dialogRef: MatDialogRef<UpdateUserProfile>,
@@ -32,7 +43,11 @@ export class UpdateUserProfile {
     private snackBar: MatSnackBar
   ) { this.newUserData = { ...data }; }
 
-
+/**
+ * Function to save changes after user has updated its profile.
+ * It sends user data to the API, and renders feedback message to the user,
+ * and closes the dialog.
+ */
   saveChanges(): void {
     const username = localStorage.getItem('user');
     if (!username) return;
@@ -45,6 +60,9 @@ export class UpdateUserProfile {
     });
   }
 
+  /**
+   * Function to close the dialog after user clicks 'Cancel' button without saving edited user data.
+   */
   cancelChanges(): void {
     this.dialogRef.close();
   }

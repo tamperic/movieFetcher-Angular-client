@@ -14,6 +14,11 @@ import { FetchApiData } from '../fetch-api-data';
 import { ConfirmDialog } from '../confirm-dialog/confirm-dialog';
 import { UpdateUserProfile } from '../update-user-profile/update-user-profile';
 
+
+/**
+ * UserProfile component displays user's details, favorite movies, allows users to:
+ * edit their profile, log out, delete their account.
+ */
 @Component({
   selector: 'app-user-profile',
   imports: [
@@ -29,10 +34,23 @@ import { UpdateUserProfile } from '../update-user-profile/update-user-profile';
   templateUrl: './user-profile.html',
   styleUrl: './user-profile.scss'
 })
+
+
 export class UserProfile implements OnInit {
+  /** Currently logged-in user object */
   user: any = {};
+
+  /** Array of the user's favorite movie IDs */
   favMovies: any[] = [];
 
+  /**
+   * Injects next services:
+   * @param fetchApiData - Service for handling API requests.
+   * @param snackBar - Angular Material's snackbar feeback message for users.
+   * @param dialog - Service that provide opening other dialogs.
+   * @param router - Angular Router for navigation.
+   * @param CDR - ChangeDetectorRef used to manually run the change detection and update the view (UI) after data changes.
+   */
   constructor(
     public fetchApiData: FetchApiData,
     public snackBar: MatSnackBar,
@@ -41,22 +59,36 @@ export class UserProfile implements OnInit {
     private CDR: ChangeDetectorRef,
   ) {}
 
+  /**
+   * Angular lifecycle hook called after component initialization.
+   * Initializes the component by fetching the user data.
+   */
   ngOnInit(): void {
     this.getUser();
   }
 
+  /**
+   * Function to fetch and render user's favorite movies, 
+   * by firrst fetching all movies from backend and 
+   * then comparing IDs from the user object with the full list of movies from the API.
+   * On failure it throws an error message to the user.
+   */
   getFavMovies(): void {
     this.fetchApiData.getAllMovies().subscribe((res: any) => {
-      const favMoviesIDs = this.user.favoriteMovies || [];
-      this.favMovies = res.filter((movie: any) => favMoviesIDs.includes(movie._id));
+      const favMoviesIDs = this.user.favoriteMovies || [];              // Extract user's list of favorite movie IDs drom the user object. If 'favoriteMovies' doesn't exist (null/undefined) returns empty array. 
+      this.favMovies = res.filter((movie: any) => favMoviesIDs.includes(movie._id));               // Filter list of all movies ('res') that include just movies with ID that are located in user's list of favorites.
       this.CDR.detectChanges();
     }, (error) => {
       this.snackBar.open('Fetching favorite movies failed: ' + error, 'OK', { duration: 2000 });
     });
   }
 
+  /**
+   * Function to fetch and render all data about current user using his username from localStorage,
+   * and update the view with that data.
+   */
   getUser(): void {
-    const username = localStorage.getItem('user')?.replace(/^"|"$/g, '');
+    const username = localStorage.getItem('user')?.replace(/^"|"$/g, '');      // .replace(/^"|"$/g, '') removes quotes from string in localStorage.
 
     if (!username) {
       this.snackBar.open('User not found in local storage', 'OK', { duration: 2000 });
@@ -64,14 +96,18 @@ export class UserProfile implements OnInit {
     }
 
     this.fetchApiData.getUser(username).subscribe((res) => {
-      this.user = res;
-      this.getFavMovies();
-      this.CDR.detectChanges(); //  Run change detection and update the view after data changes 
-      console.log(this.user);
+      this.user = res;          // 'res' user data returned from the server
+      this.getFavMovies();       // Load user's favorite movies 
+      this.CDR.detectChanges(); 
+      // console.log(this.user);
       return this.user;
     });
   }
 
+/**
+ * Function to open EditDialog to allow user to update/edit his data,
+ * and update user data if dialog returns updated data.
+ */
   openEditDialog(): void {
     const dialogRef = this.dialog.open(UpdateUserProfile, {
       width: '480px',
@@ -83,7 +119,12 @@ export class UserProfile implements OnInit {
     });
   }
 
-
+/**
+ * Function to delete user account, by opening confirmation dialog.
+ * If from user confirmed, account will be deleted, feedback message sent to the user,
+ * localStorage cleared and user navigated to the 'welcome' screen.
+ * On failure user gets error message.
+ */
   deleteUserAccount(): void {
     const username = localStorage.getItem('user');
     if (!username) return;
@@ -106,6 +147,10 @@ export class UserProfile implements OnInit {
     });
   }
 
+  /**
+   * Function to log out user, clear localStorage, show feedback message to the user
+   * and navigate to the 'welcome' screen.
+   */
   logoutUser(): void {
     localStorage.removeItem('user');
     localStorage.removeItem('token');
