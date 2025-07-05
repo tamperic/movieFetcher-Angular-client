@@ -1,18 +1,22 @@
 <div class="main-page" >
-    <h1>Welcome to MovieFetcher!</h1>
-    <button
-      mat-raised-button
-      (click)="openUserRegistrationDialog()"
-      style="margin-right: 10px;"
-      color="primary"
-    >Sign Up
-    </button>
-    <button
-      mat-raised-button
-      (click)="openUserLoginDialog()"
-      style="margin-right: 10px;"
-      color="primary"
-    >Log In
-    </button>
+    <h1>Welcome to MovieFetcher! 🎬</h1>
+    <p>We are happy to have you on board. Feel free to discover hidden gems!</p>
+    <p>Happy exploring and enjoy the show! 🍿✨</p>
+    <div class="button-group">
+      <button
+        mat-raised-button
+        class="custom-btn"
+        (click)="openUserRegistrationDialog()"
+        color="primary"
+      >Sign Up
+      </button>
+      <button
+        mat-raised-button
+        class="custom-btn"
+        (click)="openUserLoginDialog()"
+        color="primary"
+      >Log In
+      </button>
+    </div>
 </div>
   
