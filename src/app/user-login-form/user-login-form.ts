@@ -63,8 +63,13 @@ export class UserLoginForm {
   loginUser(): void {
     this.fetchApiData.userLogin(this.userData).subscribe((response) => {
       // Logic for a successful user registration
-      localStorage.setItem('user', response.user.username);
-      localStorage.setItem('token', response.token);
+      // localStorage.setItem('user', response.user.username);
+      // localStorage.setItem('token', response.token);
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('user', response.user.username);
+        localStorage.setItem('token', response.token);
+      }
+
       this.dialogRef.close();
       // console.log(response);
       this.snackBar.open('User logged in successfully!', 'OK', {

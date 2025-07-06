@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Injectable, Inject, PLATFORM_ID } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -6,7 +6,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { UserRegistrationForm } from '../user-registration-form/user-registration-form';
 import { UserLoginForm } from '../user-login-form/user-login-form';
-import { CommonModule } from '@angular/common';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
 
@@ -28,6 +28,7 @@ import { RouterModule } from '@angular/router';
   styleUrl: './navbar.scss'
 })
 
+@Injectable({ providedIn: 'root' })
 
 export class Navbar {
   /**
@@ -37,6 +38,7 @@ export class Navbar {
    * @param dialog - Service that provide opening other sub-dialogs.
    */
   constructor ( 
+    @Inject(PLATFORM_ID) private platformId: Object,
     private router: Router,
     private snackBar: MatSnackBar,
     public dialog: MatDialog
@@ -47,9 +49,12 @@ export class Navbar {
    * @returns 'true' if user is logged in or 'false' if not.
    */
   isLoggedIn(): boolean {
-    return !!localStorage.getItem('token');
+    if (isPlatformBrowser(this.platformId)) {
+      return !!localStorage.getItem('token');
+    }
+    return false;
   }
-
+  
   /**
    * Function to check whether user is logged out.
    * @returns 'true' if user is logged out and navigate to the '/welcome' or root '/' route or 'false' if not. 
@@ -83,8 +88,12 @@ export class Navbar {
    * and navigate to 'welcome' screen.
    */
   logoutUser(): void {
-    localStorage.removeItem('user');
-    localStorage.removeItem('token');
+    // localStorage.removeItem('user');
+    // localStorage.removeItem('token');
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.removeItem('user');
+      localStorage.removeItem('token');
+    }
     this.snackBar.open('User logged out successfully!', 'OK', { duration: 2000 });
     this.router.navigate(['welcome']);
   }

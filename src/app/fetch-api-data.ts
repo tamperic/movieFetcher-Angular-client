@@ -1,4 +1,5 @@
-import { Injectable } from '@angular/core'; // '@Injectable' decorator is a function that augments a piece of code (another function or class).
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core'; // '@Injectable' decorator is a function that augments a piece of code (another function or class).
+import { isPlatformBrowser } from '@angular/common';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError, map, catchError } from 'rxjs'; // RxJS - reactive programming library for JavaScript
 
@@ -12,21 +13,40 @@ const apiUrl = 'https://movie-fetcher-5a8669cd2c54.herokuapp.com/';
 })
 
 export class FetchApiData {
-  // Inject the HttpClient module to the constructor params
-  // This will provide HttpClient to the entire class, making it available via this.http
-  constructor(private http: HttpClient) { 
-    // this.http = http;
-  }
+  /**
+   * 
+   * @param http - Inject the HttpClient module to the constructor params
+   * This will provide HttpClient to the entire class, making it available via this.http
+   */
+  constructor(
+    private http: HttpClient,
+    @Inject(PLATFORM_ID) private platformId: Object
+  ) {  }
 
 
   /*   ** PRIVATE HELPER METHODS: **   */
 
   // GET JWT TOKEN from localStorage & add it to HTTP REQUEST HEADERS as Bearer token for authorization
-  private createAuthHeader(): HttpHeaders {
+  // private createAuthHeader(): HttpHeaders {
+  //   // Fetch the JWT token from browser localStorage
+  //   // const token = localStorage.getItem('token');
+  //   const token = localStorage.getItem('token')?.replace(/^"|"$/g, '');
+  //   // Create new HttpHeaders object, and set authorization for securing API endpoints
+  //   return new HttpHeaders({
+  //     Authorization: token ? `Bearer ${token}` : ''
+  //   });
+  // }
+
+  getToken(): string | null {
+    if (isPlatformBrowser(this.platformId)) {
+      return localStorage.getItem('token')?.replace(/^"|"$/g, '') || null;
+    }
+    return null;
+  }
+  
+  createAuthHeader(): HttpHeaders {
     // Fetch the JWT token from browser localStorage
-    // const token = localStorage.getItem('token');
-    const token = localStorage.getItem('token')?.replace(/^"|"$/g, '');
-    // Create new HttpHeaders object, and set authorization for securing API endpoints
+    const token = this.getToken();
     return new HttpHeaders({
       Authorization: token ? `Bearer ${token}` : ''
     });

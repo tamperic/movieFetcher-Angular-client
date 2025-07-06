@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { ChangeDetectorRef } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBarModule, MatSnackBar } from '@angular/material/snack-bar';
@@ -7,7 +7,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { Router } from '@angular/router';
 
 import { FetchApiData } from '../fetch-api-data';
@@ -35,6 +35,7 @@ import { UpdateUserProfile } from '../update-user-profile/update-user-profile';
   styleUrl: './user-profile.scss'
 })
 
+@Injectable({ providedIn: 'root'})
 
 export class UserProfile implements OnInit {
   /** Currently logged-in user object */
@@ -52,6 +53,7 @@ export class UserProfile implements OnInit {
    * @param CDR - ChangeDetectorRef used to manually run the change detection and update the view (UI) after data changes.
    */
   constructor(
+    @Inject(PLATFORM_ID) private platformId: Object,
     public fetchApiData: FetchApiData,
     public snackBar: MatSnackBar,
     public dialog: MatDialog,
@@ -64,7 +66,10 @@ export class UserProfile implements OnInit {
    * Initializes the component by fetching the user data.
    */
   ngOnInit(): void {
-    this.getUser();
+    // this.getUser();
+    if (isPlatformBrowser(this.platformId)) {
+      this.getUser(); // Runs only in browser
+    }
   }
 
   /**
@@ -83,13 +88,25 @@ export class UserProfile implements OnInit {
     });
   }
 
+  getLocalStorageUser(): string | null {
+    if (isPlatformBrowser(this.platformId)) {
+      return localStorage.getItem('user')?.replace(/^"|"$/g, '') || null;
+    }
+    return null;
+  }
+
   /**
    * Function to fetch and render all data about current user using his username from localStorage,
    * and update the view with that data.
    */
   getUser(): void {
-    const username = localStorage.getItem('user')?.replace(/^"|"$/g, '');      // .replace(/^"|"$/g, '') removes quotes from string in localStorage.
+    // Prevent any execution if not in browser
+    if (!isPlatformBrowser(this.platformId)) {
+      return;
+    }
 
+    // const username = localStorage.getItem('user')?.replace(/^"|"$/g, '');      // .replace(/^"|"$/g, '') removes quotes from string in localStorage.
+    const username = this.getLocalStorageUser();
     if (!username) {
       this.snackBar.open('User not found in local storage', 'OK', { duration: 2000 });
       return;
@@ -115,7 +132,10 @@ export class UserProfile implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((updated) => {
-      if (updated) this.getUser();
+      // if (updated) this.getUser();
+      if (updated && isPlatformBrowser(this.platformId)) {
+        this.getUser();
+      }
     });
   }
 
@@ -126,7 +146,14 @@ export class UserProfile implements OnInit {
  * On failure user gets error message.
  */
   deleteUserAccount(): void {
-    const username = localStorage.getItem('user');
+    // const username = localStorage.getItem('user');
+    // Prevent any execution if not in browser
+    if (!isPlatformBrowser(this.platformId)) {
+      return;
+    }
+
+    // const username = localStorage.getItem('user')?.replace(/^"|"$/g, '');      // .replace(/^"|"$/g, '') removes quotes from string in localStorage.
+    const username = this.getLocalStorageUser();
     if (!username) return;
 
     const dialogRef = this.dialog.open(ConfirmDialog, { 
@@ -138,7 +165,10 @@ export class UserProfile implements OnInit {
       if (result === true) {
         this.fetchApiData.deleteUser(username).subscribe(() => {
           this.snackBar.open('Account deleted successfully', 'OK', { duration: 2000 });
-          localStorage.clear();
+          // localStorage.clear();
+          if (isPlatformBrowser(this.platformId)) {
+            localStorage.clear();
+          }
           this.router.navigate(['welcome']);
         }, (error) => {
           this.snackBar.open('Deleting account failed: ' + error, 'OK', { duration: 2000 });
@@ -152,8 +182,12 @@ export class UserProfile implements OnInit {
    * and navigate to the 'welcome' screen.
    */
   logoutUser(): void {
-    localStorage.removeItem('user');
-    localStorage.removeItem('token');
+    // localStorage.removeItem('user');
+    // localStorage.removeItem('token');
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.removeItem('user');
+      localStorage.removeItem('token');
+    }
     this.snackBar.open('User logged out successfully!', 'OK', { duration: 2000 });
     this.router.navigate(['welcome']);
   }

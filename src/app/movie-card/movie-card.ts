@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Injectable, Inject, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { FetchApiData } from '../fetch-api-data';
 import { MatCardModule } from '@angular/material/card';
 import { MatDialogModule, MatDialog } from '@angular/material/dialog';
@@ -29,6 +30,7 @@ import { MovieDetails } from '../movie-details/movie-details';
   styleUrl: './movie-card.scss'
 })
 
+@Injectable({ providedIn: 'root'})
 
 export class MovieCard implements OnInit {
   /** Array of all movies fetched from the API */
@@ -48,6 +50,7 @@ export class MovieCard implements OnInit {
    * @param CDR - ChangeDetectorRef used to manually run the change detection and update the view (UI) after data changes.
    */
   constructor(
+    @Inject(PLATFORM_ID) private platformId: Object,
     public fetchApiData: FetchApiData,
     private snackBar: MatSnackBar,
     private dialog: MatDialog,
@@ -61,7 +64,10 @@ export class MovieCard implements OnInit {
    */
   ngOnInit(): void {
     this.getMovies();
-    this.getUser();
+    // this.getUser();
+    if (isPlatformBrowser(this.platformId)) {
+      this.getUser(); // Runs only in browser
+    }
   }
 
   /**
@@ -71,10 +77,23 @@ export class MovieCard implements OnInit {
     this.fetchApiData.getAllMovies().subscribe((res: any) => {
       this.movies = res;
       this.CDR.detectChanges(); //  Run change detection and update the view (UI) after data changes.
-      console.log(this.movies);
-      this.getUser(); // Update user data 
+      // console.log(this.movies);
+
+      // this.getUser(); // Update user data 
+      // Only fetch user in browser
+      if (isPlatformBrowser(this.platformId)) {
+        this.getUser();
+      }
+
       return this.movies;
     });
+  }
+
+  getLocalStorageUser(): string | null {
+    if (isPlatformBrowser(this.platformId)) {
+      return localStorage.getItem('user')?.replace(/^"|"$/g, '') || null;
+    }
+    return null;
   }
 
   /**
@@ -83,8 +102,13 @@ export class MovieCard implements OnInit {
    * @returns user object
    */
   getUser(): void {
-    const username = localStorage.getItem('user')?.replace(/^"|"$/g, '');      // .replace(/^"|"$/g, '') removes quotes from string in localStorage.
+    // Prevent any execution if not in browser
+    if (!isPlatformBrowser(this.platformId)) {
+      return;
+    }
 
+    // const username = localStorage.getItem('user')?.replace(/^"|"$/g, '');      // .replace(/^"|"$/g, '') removes quotes from string in localStorage.
+    const username = this.getLocalStorageUser();
     if (!username) {
       this.snackBar.open('User not found in local storage', 'OK', { duration: 2000 });
       return;
@@ -114,11 +138,15 @@ export class MovieCard implements OnInit {
    * @param movieID - The unique ID of certain movie to add.
    */
   addFavorite(movieID: string): void {
-    const username = localStorage.getItem('user')?.replace(/^"|"$/g, '');
+    // const username = localStorage.getItem('user')?.replace(/^"|"$/g, '');
+    const username = this.getLocalStorageUser();
     if (!username) return;
 
     this.fetchApiData.addFavMovie(username, movieID).subscribe(() => {
-      this.getUser();
+      // this.getUser();
+      if (isPlatformBrowser(this.platformId)) {
+        this.getUser();
+      }
       this.snackBar.open('The movie added to favorites!', 'OK', { duration: 2000 });
       this.CDR.detectChanges();
     });
@@ -129,11 +157,15 @@ export class MovieCard implements OnInit {
    * @param movieID - The unique ID of certain movie to remove.
    */
   removeFavorite(movieID: string): void {
-    const username = localStorage.getItem('user')?.replace(/^"|"$/g, '');  
+    // const username = localStorage.getItem('user')?.replace(/^"|"$/g, ''); 
+    const username = this.getLocalStorageUser(); 
     if (!username) return;
 
     this.fetchApiData.deleteFavMovie(username, movieID).subscribe(() => {
-      this.getUser();
+      // this.getUser();
+      if (isPlatformBrowser(this.platformId)) {
+        this.getUser();
+      }
       this.snackBar.open('The movie removed from favorites!', 'OK', { duration: 2000 });
       this.CDR.detectChanges();
     });
@@ -164,7 +196,10 @@ export class MovieCard implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((updated) => {
-      if (updated) this.getUser();
+      // if (updated) this.getUser();
+      if (updated && isPlatformBrowser(this.platformId)) {
+        this.getUser();
+      }
     });
   }
 }
