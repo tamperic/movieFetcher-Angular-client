@@ -1,8 +1,0 @@
-{
-  "routes": {
-    "/movieFetcher-Angular-client": {},
-    "/movieFetcher-Angular-client/movies": {},
-    "/movieFetcher-Angular-client/profile": {},
-    "/movieFetcher-Angular-client/welcome": {}
-  }
-}
