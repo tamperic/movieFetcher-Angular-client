@@ -1,6 +1,6 @@
-# 🎬 MovieFetcherAngularClient
+# 🎬 MovieFetcher-Angular-client
 
-**MovieFetcher** is a client-side application built with Angular that allows users to explore a wide selection of movies and interact with a RESTful API backend. It uses Angular’s component-based architecture along with Angular Material for a responsive user experience.
+**MovieFetcher-Angular-client** is a client-side application built with Angular that allows users to explore a wide selection of movies and interact with a RESTful API backend. It uses Angular’s component-based architecture along with Angular Material for a responsive user experience.
 
 ## 🚀 Features
 
@@ -46,6 +46,7 @@ The app is built using Angular’s reusable standalone components:
 
 - **ConfirmDialog** – Confirmation dialog for user actions like account deletion.
 
+___
 
 ## 🛠️ Tech stack 
 
@@ -56,6 +57,9 @@ The app is built using Angular’s reusable standalone components:
 - **RxJS** - reactive programming for asynchronous operations and API handling.
 - **TypeScript** - a superset of JavaScript for better code quality.
 - **TypeDoc** - for converting comments in TypeScript's source code into HTML documentation.
+- Deployed on **GitHub Pages**.
+
+___
 
 ## Development server
 
@@ -66,6 +70,8 @@ ng serve
 ```
 
 Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+
+____
 
 ## Code scaffolding
 
@@ -81,6 +87,8 @@ For a complete list of available schematics (such as `components`, `directives`,
 ng generate --help
 ```
 
+___
+
 ## Building
 
 To build the project run:
@@ -91,6 +99,8 @@ ng build
 
 This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
 
+___
+
 ## Running unit tests
 
 To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
@@ -98,6 +108,9 @@ To execute unit tests with the [Karma](https://karma-runner.github.io) test runn
 ```bash
 ng test
 ```
+
+___
+
 
 ## Running end-to-end tests
 
@@ -109,6 +122,15 @@ ng e2e
 
 Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
 
+___
+
 ## Additional Resources
 
 For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+
+___
+
+## Live Demo
+
+Check out the **MovieFetcher-Angular-client** app deployed on GitHub Pages: <br/>
+[MovieFetcher Live Demo](https://tamperic.github.io/movieFetcher-Angular-client/)
